@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Product>
+
+
+<div>
+    <div style="display: flex; align-items:center;">
+        <h1>Список товарів</h1>
+        <div style="flex-grow: 1; text-align: end">
+            <a asp-action="Create" class="btn btn-dark">Створити товар</a>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Image</th>
+                <th scope="col">Category</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                    <tr>
+                        <th scope="row">@product.Id</th>
+                        <th>@product.Name</th>
+                        <th>@product.Price</th>
+                        <th>@product.Amount</th>
+                        <th><img width="100" alt="@product.Name" src="~/images/products/@(product.Image ?? "defaultImage.jpg")"/></th>
+                        <th>@product.Category?.Name</th>
+                        <td class="text-end">
+                            <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-info">Редагувати</a>
+                            <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">Видалити</a>
+                        </td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

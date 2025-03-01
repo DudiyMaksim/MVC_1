@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Category>
+
+
+<div>
+    <div style="display: flex; align-items:center;">
+        <h1>Categories</h1>
+        <div style="flex-grow: 1; text-align: end">
+            <a asp-action="Create" class="btn btn-dark">Створити категорію</a>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model)
+            {
+                <tr>
+                    <th scope="row">@category.Id</th>
+                    <th>@category.Name</th>
+                    <td class="text-end">
+                        <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-info">Редагувати</a>
+                        <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger">Видалити</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

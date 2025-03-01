@@ -1,0 +1,17 @@
+﻿@model MVC_1.Models.Product
+
+<div class="d-flex flex-column align-items-center border w-50 m-auto p-2">
+    <h1>Видалити Продукт</h1>
+
+    <div class="alert alert-warning">
+        Ви дійсно хочете видалити продукт <strong>@Model.Name</strong>?
+    </div>
+
+    <form asp-action="DeleteConfirmed" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-danger m-3">Видалити</button>
+            <a asp-action="Index" class="btn btn-secondary m-3">Скасувати</a>
+        </div>
+    </form>
+</div>
