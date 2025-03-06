@@ -7,7 +7,7 @@
         Ви дійсно хочете видалити продукт <strong>@Model.Name</strong>?
     </div>
 
-    <form asp-action="DeleteConfirmed" method="post">
+    <form asp-action="Delete" method="post">
         <input type="hidden" asp-for="Id" />
         <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-danger m-3">Видалити</button>

@@ -1,0 +1,24 @@
+﻿@model Product
+
+<div style="display: flex; align-items: flex-start; height: 80vh;padding: 20px; border: 2px solid #ddd; border-radius: 10px; box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1); background-color: white;">
+
+    <div style="flex: 1; padding-right: 20px; word-break: break-word;">
+        @(Model?.Description != null
+                    ? Html.Raw(Model.Description)
+                    : Html.Raw("<p style='font-style: italic; color: #888;'>Опис поки що відсутній.</p>"))
+    </div>
+
+    <div style="flex-shrink: 0; max-width: 400px; padding: 20px; border: 2px solid #ddd; border-radius: 10px; box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1); background-color: white;">
+        
+        <div style="overflow: hidden; border-radius: 8px; margin-bottom: 15px;">
+            <img width="100%" alt="@Model.Name" src="~/images/products/@(Model.Image ?? "defaultImage.jpg")" style="border-radius: 8px;" />
+        </div>
+
+        <div style="padding: 10px;">
+            <h4 style="margin: 5px 0; color: #2c3e50;">@Model.Name</h4>
+            <p style="margin: 5px 0; font-weight: bold; color: #16a085;">Ціна: @Model.Price ₴</p>
+            <p style="margin: 5px 0; color: #2980b9;">Кількість: @Model.Amount шт.</p>
+            <p style="margin: 5px 0; color: #2980b9;">Категорія: @Model.Category?.Name</p>
+        </div>
+    </div>
+</div>

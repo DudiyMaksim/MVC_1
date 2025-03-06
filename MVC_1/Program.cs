@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using MVC_1.Data;
+using MVC_1.Repositories.Categories;
+using MVC_1.Repositories.Products;
+using MVC_1.Services.Image;
 
 namespace MVC_1
 {
@@ -11,6 +14,13 @@ namespace MVC_1
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<IImageService, ImageService>();
+
+
+            // Add repositories
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             // Add database context
             builder.Services.AddDbContext<AppDbContext>(options =>

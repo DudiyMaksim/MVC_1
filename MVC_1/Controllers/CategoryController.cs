@@ -1,20 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MVC_1.Data;
 using MVC_1.Models;
+using MVC_1.Repositories.Categories;
 
 namespace MVC_1.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public CategoryController(AppDbContext context)
+        public CategoryController(ICategoryRepository categoryController)
         {
-            _context = context;
+            _categoryRepository = categoryController;
         }
         public IActionResult Index()
         {
-            IEnumerable<Category> categories = _context.Categories.AsEnumerable();
+            IQueryable<Category> categories = _categoryRepository.GetAll();
 
             return View(categories);
         }
@@ -26,24 +27,23 @@ namespace MVC_1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Category model)
+        public async Task<IActionResult> Create(Category model)
         {
             model.Id = Guid.NewGuid().ToString();
 
-            _context.Categories.Add(model);
-            _context.SaveChanges();
+            await _categoryRepository.CreateAsync(model);
 
             return RedirectToAction("Index");
         }
 
-        public IActionResult Edit(string? Id)
+        public async Task<IActionResult> Edit(string? Id)
         {
             if (Id == null)
             {
                 return NotFound();
             }
 
-            var category = _context.Categories.SingleOrDefault(c => c.Id == Id);
+            var category = await _categoryRepository.FindByIdAsync(Id);
             if (category == null)
             {
                 return NotFound();
@@ -54,36 +54,38 @@ namespace MVC_1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Category model)
+        public async Task<IActionResult> Edit(Category model)
         {
-            _context.Categories.Update(model);
-            _context.SaveChanges();
+            await _categoryRepository.UpdateAsync(model);
             return RedirectToAction("Index");
         }
 
 
-        public IActionResult Delete(string Id)
+        public async Task<IActionResult> DeleteAsync(string Id)
         {
             if (Id == null)
             {
                 return NotFound();
             }
 
-            var category = _context.Categories.SingleOrDefault(c => c.Id == Id);
+            var category = await _categoryRepository.FindByIdAsync(Id);
             if (category == null)
             {
                 return NotFound();
             }
 
-            _context.Categories.Remove(category);
             return View(category);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(Category model)
+        public IActionResult DeleteAsync(Category model)
         {
-            _context.Categories.Remove(model);
-            _context.SaveChanges();
+            if (model.Id == null)
+            {
+                return NotFound();
+            }
+
+            _categoryRepository.DeleteAsync(model.Id);
             return RedirectToAction("Index");
         }
     }
