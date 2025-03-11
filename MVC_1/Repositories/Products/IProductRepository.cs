@@ -6,6 +6,7 @@ namespace MVC_1.Repositories.Products
     {
         Task CreateAsync(Product model);
         Task UpdateAsync(Product model);
+        Task UpdateRangeAsync(IEnumerable<Product> models);
         Task DeleteAsync(string id);
         Task<Product?> FindByIdAsync(string id);
         IQueryable<Product> GetAll();

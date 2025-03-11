@@ -31,9 +31,16 @@ namespace MVC_1.Controllers
         {
             model.Id = Guid.NewGuid().ToString();
 
-            await _categoryRepository.CreateAsync(model);
+            if (ModelState.IsValid)
+            {
+                await _categoryRepository.CreateAsync(model);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(model);
+            }
 
-            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Edit(string? Id)

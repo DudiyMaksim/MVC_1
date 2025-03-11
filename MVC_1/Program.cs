@@ -14,6 +14,7 @@ namespace MVC_1
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddScoped<IImageService, ImageService>();
 
@@ -28,6 +29,16 @@ namespace MVC_1
                 options.UseSqlServer("name=SqlServerLocal");
             });
 
+            builder.Services.AddHttpContextAccessor();
+
+            // Session
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(1);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -38,10 +49,14 @@ namespace MVC_1
                 app.UseHsts();
             }
 
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
+
 
             app.UseAuthorization();
 
